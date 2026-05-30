@@ -1,0 +1,91 @@
+name: Hunt for Heisentests
+
+on:
+  workflow_dispatch:
+  # every 20 minutes
+  schedule:
+    - cron: 0,19,59 * * * *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.save.outputs.json }}
+
+    steps:
+    - name: Checkout Master
+      uses: actions/checkout@v6
+
+    - name: Setup Submodule
+      run: |
+        git submodule update --init --recursive
+
+    - name: Pull engine updates
+      uses: space-wizards/submodule-dependency@v0.1.5
+
+    - name: Update Engine Submodules
+      run: |
+        cd RobustToolbox/
+        git submodule update --init --recursive
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4.1.0
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Build Project
+      run: dotnet build --configuration DebugOpt --no-restore /m
+
+    - name: Run Content.Tests
+      id: tests
+      shell: pwsh
+      run: dotnet test --no-build --configuration DebugOpt Content.Tests/Content.Tests.csproj -- NUnit.ConsoleOut=0 NUnit.TestOutputXml="logs" NUnit.WorkDirectory="$(pwd)/test_results"
+
+    - name: Run Content.IntegrationTests
+      id: integration_tests
+      shell: pwsh
+      run: |
+        $env:DOTNET_gcServer=1
+        dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed NUnit.TestOutputXml="logs" NUnit.WorkDirectory="$(pwd)/test_results"
+
+    - name: get failures
+      if: failure()
+      id: get_fails
+      shell: python
+      run: |
+        import os
+        import xml.etree.ElementTree as ET
+        env_file = os.getenv('GITHUB_OUTPUT')
+        test_failures = ET.parse('./test_results/logs/Content.Tests.xml').getroot().findall(".//test-case[@result='Failed']")
+        integration_failures = ET.parse('./test_results/logs/Content.IntegrationTests.xml').getroot().findall(".//test-case[@result='Failed']")
+        with open(env_file, "a") as f:
+          f.write("TEST_FAILS={'||'.join([x.get('fullname') for x in test_failures])}")
+          f.write("INTEGRATION_FAILS={'||'.join([x.get('fullname') for x in integration_failures])}")
+
+    - name: Store matrix
+      if: failure()
+      id: save
+      uses: nickofthyme/object-remap@v3
+      with:
+        include.*.number: ${{ toJSON(fromJSON(steps.fetch.outputs.data).*.number) }}
+        include.*.title: ${{ toJSON(fromJSON(steps.fetch.outputs.data).*.title) }}
+        include.*.username: ${{ toJSON(fromJSON(steps.fetch.outputs.data).*.user.login) }}
+
+  report:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        value: ${{fromJSON(needs.setup.outputs.matrix)}}
+    steps:
+    - uses: JasonEtco/create-an-issue@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TEST: TEST
+      with:
+        filename: .github/heisentest_template.md
+        update_existing: true
+        search_existing: all
