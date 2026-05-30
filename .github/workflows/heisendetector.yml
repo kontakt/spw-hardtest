@@ -63,8 +63,8 @@ jobs:
       id: save
       uses: nickofthyme/object-remap@v3
       with:
-        include.*.name: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.@name) }}
-        include.*.fullname: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.@fullname) }}
+        include.*.name: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.name) }}
+        include.*.fullname: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.fullname) }}
         include.*.message: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.failure.message) }}
         include.*.output: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.output) }}
 
