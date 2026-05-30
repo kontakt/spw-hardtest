@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   # every 20 minutes
   schedule:
-    - cron: 0,19,59 * * * *
+    - cron: */15 * * * *
 
 jobs:
   build:
@@ -48,7 +48,7 @@ jobs:
         $env:DOTNET_gcServer=1
         dotnet test --no-build --configuration DebugOpt Content.IntegrationTests/Content.IntegrationTests.csproj -- NUnit.ConsoleOut=0 NUnit.MapWarningTo=Failed NUnit.TestOutputXml="logs" NUnit.WorkDirectory="$(pwd)/test_results"
 
-    - name: get failures
+    - name: Extract Failures
       if: failure()
       id: get_fails
       shell: python
