@@ -72,9 +72,9 @@ jobs:
       id: save
       uses: nickofthyme/object-remap@v3
       with:
-        include.*.number: ${{ toJSON(fromJSON(steps.fetch.outputs.get_fails).*.number) }}
-        include.*.title: ${{ toJSON(fromJSON(steps.fetch.outputs.get_fails).*.title) }}
-        include.*.username: ${{ toJSON(fromJSON(steps.fetch.outputs.get_fails).*.user.login) }}
+        include.*.number: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.number) }}
+        include.*.title: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.title) }}
+        include.*.username: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.user.login) }}
 
   report:
     needs: [ build ]
