@@ -62,14 +62,19 @@ jobs:
           f.write("TEST_FAILS={'||'.join([x.get('fullname') for x in test_failures])}")
           f.write("INTEGRATION_FAILS={'||'.join([x.get('fullname') for x in integration_failures])}")
 
+
+    - name: Debugging
+      shell: pwsh
+      run: echo ${{steps.fetch.outputs.get_fails}}
+
     - name: Store matrix
       if: failure()
       id: save
       uses: nickofthyme/object-remap@v3
       with:
-        include.*.number: ${{ toJSON(fromJSON(steps.fetch.outputs.data).*.number) }}
-        include.*.title: ${{ toJSON(fromJSON(steps.fetch.outputs.data).*.title) }}
-        include.*.username: ${{ toJSON(fromJSON(steps.fetch.outputs.data).*.user.login) }}
+        include.*.number: ${{ toJSON(fromJSON(steps.fetch.outputs.get_fails).*.number) }}
+        include.*.title: ${{ toJSON(fromJSON(steps.fetch.outputs.get_fails).*.title) }}
+        include.*.username: ${{ toJSON(fromJSON(steps.fetch.outputs.get_fails).*.user.login) }}
 
   report:
     needs: [ build ]
