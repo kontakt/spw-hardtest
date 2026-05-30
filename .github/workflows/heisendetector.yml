@@ -7,7 +7,7 @@ on:
     - cron: "*/15 * * * *"
 
 jobs:
-  build:
+  hunt:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.save.outputs.json }}
@@ -63,22 +63,23 @@ jobs:
       id: save
       uses: nickofthyme/object-remap@v3
       with:
-        include.*.number: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.number) }}
-        include.*.title: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.title) }}
-        include.*.username: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.user.login) }}
+        include.*.name: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.@name) }}
+        include.*.fullname: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.@fullname) }}
+        include.*.message: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.failure.message) }}
+        include.*.output: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.output) }}
 
   report:
     needs: [ build ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        value: ${{fromJSON(needs.setup.outputs.matrix)}}
+        value: ${{fromJSON(needs.hunt.outputs.matrix)}}
     steps:
-    - uses: JasonEtco/create-an-issue@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        TEST: TEST
-      with:
-        filename: .github/heisentest_template.md
-        update_existing: true
-        search_existing: all
+      - name: Echo name
+        run: echo "name: ${{ matrix.name }}"
+      - name: Echo full name
+        run: echo "full name: ${{ matrix.fullname }}"
+      - name: Echo message
+        run: echo "message: ${{ matrix.message }}"
+      - name: Echo output
+        run: echo "output: ${{ matrix.output }}"
