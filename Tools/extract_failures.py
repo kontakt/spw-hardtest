@@ -28,7 +28,7 @@ all_fails = []
 all_fails.append(extract('./test_results/logs/Content.Tests.xml'))
 all_fails.append(extract('./test_results/logs/Content.IntegrationTests.xml'))
 
-json_data = json.dumps(all_fails, indent=4)
+json_data = json.dumps(all_fails, indent=4).replace("@", "")
 print(json_data)
 
 with open('outfile.txt', 'w') as f:
