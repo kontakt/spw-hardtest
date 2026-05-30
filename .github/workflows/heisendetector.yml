@@ -69,7 +69,7 @@ jobs:
         include.*.output: ${{ toJSON(fromJSON(steps.get_fails.outputs.data).*.output) }}
 
   report:
-    needs: [ build ]
+    needs: [ hunt ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
