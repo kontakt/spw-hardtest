@@ -56,7 +56,7 @@ jobs:
 
     - name: Debugging
       shell: pwsh
-      run: echo ${{steps.fetch.outputs.get_fails}}
+      run: echo ${{steps.get_fails.outputs.data}}
 
     - name: Store matrix
       if: failure()
@@ -76,10 +76,14 @@ jobs:
         value: ${{fromJSON(needs.hunt.outputs.matrix)}}
     steps:
       - name: Echo name
-        run: echo "name: ${{ matrix.name }}"
+        run: |
+            echo "name: ${{ matrix.name }}"
       - name: Echo full name
-        run: echo "full name: ${{ matrix.fullname }}"
+        run: |
+            echo "full name: ${{ matrix.fullname }}"
       - name: Echo message
-        run: echo "message: ${{ matrix.message }}"
+        run: |
+            echo "message: ${{ matrix.message }}"
       - name: Echo output
-        run: echo "output: ${{ matrix.output }}"
+        run: |
+            echo "output: ${{ matrix.output }}"
