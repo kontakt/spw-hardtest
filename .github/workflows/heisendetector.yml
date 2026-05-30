@@ -51,7 +51,6 @@ jobs:
     - name: Extract Failures
       if: failure()
       id: get_fails
-      shell: python
       run: Tools/extract_failures.py
 
     - name: Debugging
