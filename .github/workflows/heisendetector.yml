@@ -52,16 +52,7 @@ jobs:
       if: failure()
       id: get_fails
       shell: python
-      run: |
-        import os
-        import xml.etree.ElementTree as ET
-        env_file = os.getenv('GITHUB_OUTPUT')
-        test_failures = ET.parse('./test_results/logs/Content.Tests.xml').getroot().findall(".//test-case[@result='Failed']")
-        integration_failures = ET.parse('./test_results/logs/Content.IntegrationTests.xml').getroot().findall(".//test-case[@result='Failed']")
-        with open(env_file, "a") as f:
-          f.write("TEST_FAILS={'||'.join([x.get('fullname') for x in test_failures])}")
-          f.write("INTEGRATION_FAILS={'||'.join([x.get('fullname') for x in integration_failures])}")
-
+      run: Tools/extract_failures.py
 
     - name: Debugging
       shell: pwsh
