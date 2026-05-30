@@ -1,6 +1,0 @@
-﻿<Project>
-  <!-- Include this .props file from content to get access to the APIs in these projects. -->
-  <ItemGroup>
-    <ProjectReference Include="$(MSBuildThisFileDirectory)\..\Robust.Server\Robust.Server.csproj" />
-  </ItemGroup>
-</Project>
