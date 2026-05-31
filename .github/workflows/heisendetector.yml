@@ -57,6 +57,7 @@ jobs:
         python Tools/extract_failures.py
 
     - name: Debugging
+      if: failure()
       shell: pwsh
       run: echo ${{steps.get_fails.outputs.data}}
 
@@ -72,6 +73,7 @@ jobs:
 
   report:
     needs: [ hunt ]
+    if: failure()
     runs-on: ubuntu-latest
     strategy:
       matrix:
