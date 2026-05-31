@@ -73,7 +73,7 @@ jobs:
 
   report:
     needs: [ hunt ]
-    if: failure()
+    if: ${{ always() && failure() }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
