@@ -31,6 +31,8 @@ all_fails = []
 all_fails.append(extract('./test_results/logs/Content.Tests.xml'))
 all_fails.append(extract('./test_results/logs/Content.IntegrationTests.xml'))
 
+print(all_fails)
+
 json_data = json.dumps(all_fails[0]).replace('@', '')
 print(f'failures={json_data}\n')
 with open(output, 'a') as f:
