@@ -60,7 +60,7 @@ jobs:
     - name: Debugging
       if: failure()
       shell: pwsh
-      run: echo ${{ steps.get_fails.outputs }}
+      run: echo ${{ steps.get_fails.outputs.failures }}
 
     - name: Store matrix
       if: failure()
