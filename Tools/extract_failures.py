@@ -29,4 +29,4 @@ all_fails.append(extract('./test_results/logs/Content.Tests.xml'))
 all_fails.append(extract('./test_results/logs/Content.IntegrationTests.xml'))
 
 json_data = json.dumps(all_fails[0]).replace('@', '')
-print(f'failures={json_data}')
+print(f'failures={json_data}\n')
