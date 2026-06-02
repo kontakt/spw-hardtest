@@ -12,6 +12,7 @@ public sealed partial class JobStatusSystem : SharedJobStatusSystem
     [Dependency] private ShowCrewIconsSystem _showCrewIcons = default!;
     [Dependency] private IPrototypeManager _prototype = default!;
 
+// blah
     private static readonly ProtoId<SecurityIconPrototype> CrewBorderIcon = "CrewBorderIcon";
     private static readonly ProtoId<SecurityIconPrototype> CrewUncertainBorderIcon = "CrewUncertainBorderIcon";
 
