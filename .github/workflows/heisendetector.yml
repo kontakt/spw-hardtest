@@ -15,15 +15,8 @@ jobs:
     steps:
     - name: Checkout Master
       uses: actions/checkout@v6
-
-    - name: Setup Submodule
-      run: |
-        git submodule update --init --recursive
-
-    - name: Update Engine Submodules
-      run: |
-        cd RobustToolbox/
-        git submodule update --init --recursive
+      with:
+          submodules: recursive
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4.1.0
