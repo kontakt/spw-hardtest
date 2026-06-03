@@ -65,7 +65,7 @@ jobs:
     steps:
       - name: Echo matrix
         run: |
-          echo '${{ matrix }}'
+          echo '${{ toJSON(matrix) }}'
       - name: Echo name
         run: |
           echo "name: ${{ matrix.name }}"
