@@ -51,7 +51,6 @@ jobs:
 
     - name: Debugging
       if: failure()
-      shell: pwsh
       run: |
         echo ${{ steps.get_fails.outputs.matrix }}
 
@@ -67,7 +66,6 @@ jobs:
       - name: Echo matrix
         run: |
           echo '${{ matrix }}'
-          echo '${{ fromJSON(matrix) }}'
       - name: Echo name
         run: |
           echo "name: ${{ matrix.name }}"
