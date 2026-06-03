@@ -53,6 +53,8 @@ jobs:
     needs: [ hunt ]
     if: ${{ always() && failure() }}
     runs-on: ubuntu-latest
+    permissions:
+      issues: write 
     strategy:
       matrix:
         value: ${{ fromJSON(needs.hunt.outputs.matrix) }}
@@ -70,3 +72,11 @@ jobs:
       - name: Echo output
         run: |
           echo "output: ${{ matrix.value.output }}"
+          steps:
+      - uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/ISSUE_TEMPLATE/heisentest_template.md
+          update_existing: true
+          search_existing: all
