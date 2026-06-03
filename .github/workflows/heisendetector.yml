@@ -52,7 +52,7 @@ jobs:
     - name: Debugging
       if: failure()
       shell: pwsh
-      run: echo ${{ fromJSON(steps.get_fails.outputs.failures) }}
+      run: echo ${{ fromJSON(steps.get_fails.outputs.matrix) }}
 
   report:
     needs: [ hunt ]
