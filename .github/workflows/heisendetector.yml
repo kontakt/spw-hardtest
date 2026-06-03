@@ -10,7 +10,7 @@ jobs:
   hunt:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.save.outputs.json }}
+      matrix: ${{ steps.get_fails.outputs.matrix }}
 
     steps:
     - name: Checkout Master
@@ -53,16 +53,6 @@ jobs:
       if: failure()
       shell: pwsh
       run: echo ${{ fromJSON(steps.get_fails.outputs.failures) }}
-
-    - name: Store matrix
-      if: failure()
-      id: save
-      uses: nickofthyme/object-remap@v3
-      with:
-        include.*.name: ${{ toJSON(fromJSON(steps.get_fails.outputs.failures).*.name) }}
-        include.*.fullname: ${{ toJSON(fromJSON(steps.get_fails.outputs.failures).*.fullname) }}
-        include.*.message: ${{ toJSON(fromJSON(steps.get_fails.outputs.failures).*.failure.message) }}
-        include.*.output: ${{ toJSON(fromJSON(steps.get_fails.outputs.failures).*.output) }}
 
   report:
     needs: [ hunt ]

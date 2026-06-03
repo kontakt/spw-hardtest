@@ -25,15 +25,22 @@ def extract(filename):
 
     return failures
 
-output = os.environ.get('GITHUB_OUTPUT')
-
 all_fails = []
 all_fails.extend(extract('./test_results/logs/Content.Tests.xml'))
 all_fails.extend(extract('./test_results/logs/Content.IntegrationTests.xml'))
 
-print(all_fails)
+matrix = []
+for fail in all_fails:
+    matrix.append(
+        {
+            'name': fail['test-case']['@name'],
+            'fullname': fail['test-case']['@fullname'],
+            'failure': fail['test-case']['failure']['message'],
+            'output': fail['test-case']['output']
+        }
+    )
 
-json_data = json.dumps(all_fails).replace('@', '')
-print(f'failures={json_data}\n')
-with open(output, 'a') as f:
-    f.write(f'failures={json_data}\n')
+json_data = json.dumps(matrix).replace('@', '')
+
+with open(os.environ.get('GITHUB_OUTPUT'), 'a') as f:
+    f.write(f'matrix={json_data}\n')
