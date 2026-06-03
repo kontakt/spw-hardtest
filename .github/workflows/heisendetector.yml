@@ -49,19 +49,14 @@ jobs:
         pip install xmltodict
         python Tools/extract_failures.py
 
-    - name: Debugging
-      if: failure()
-      run: |
-        echo ${{ steps.get_fails.outputs.matrix }}
-
   report:
-    name: Error for ${{ matrix.value.name }}
     needs: [ hunt ]
     if: ${{ always() && failure() }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         value: ${{ fromJSON(needs.hunt.outputs.matrix) }}
+    name: Error for ${{ matrix.value.name }}
     steps:
       - name: Echo name
         run: |
