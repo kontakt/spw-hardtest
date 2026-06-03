@@ -63,18 +63,15 @@ jobs:
       matrix:
         value: ${{ fromJSON(needs.hunt.outputs.matrix) }}
     steps:
-      - name: Echo matrix
-        run: |
-          echo '${{ toJSON(matrix) }}'
       - name: Echo name
         run: |
-          echo "name: ${{ matrix.name }}"
+          echo "name: ${{ matrix.value.name }}"
       - name: Echo full name
         run: |
-          echo "full name: ${{ matrix.fullname }}"
+          echo "full name: ${{ matrix.value.fullname }}"
       - name: Echo message
         run: |
-          echo "message: ${{ matrix.message }}"
+          echo "message: ${{ matrix.value.message }}"
       - name: Echo output
         run: |
-          echo "output: ${{ matrix.output }}"
+          echo "output: ${{ matrix.value.output }}"
