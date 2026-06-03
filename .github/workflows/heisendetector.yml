@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        value: ${{fromJSON(needs.hunt.outputs.matrix)}}
+        value: ${{ fromJSON(needs.hunt.outputs.matrix) }}
     steps:
       - name: Echo name
         run: |

@@ -33,14 +33,19 @@ matrix = []
 for fail in all_fails:
     matrix.append(
         {
-            'name': fail['test-case']['@name'],
-            'fullname': fail['test-case']['@fullname'],
-            'failure': fail['test-case']['failure']['message'],
-            'output': fail['test-case']['output']
+            fail['test-case']['@name'] :
+            {
+                'name': fail['test-case']['@name'],
+                'fullname': fail['test-case']['@fullname'],
+                'failure': fail['test-case']['failure']['message'],
+                'output': fail['test-case']['output']
+            }
         }
     )
 
 json_data = json.dumps(matrix).replace('@', '')
+
+print(json_data)
 
 with open(os.environ.get('GITHUB_OUTPUT'), 'a') as f:
     f.write(f'matrix={json_data}\n')
