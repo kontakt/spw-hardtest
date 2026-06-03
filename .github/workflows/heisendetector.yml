@@ -55,7 +55,7 @@ jobs:
         echo ${{ steps.get_fails.outputs.matrix }}
 
   report:
-    name: Error for ${{ matrix.name }}
+    name: Error for ${{ matrix.value.name }}
     needs: [ hunt ]
     if: ${{ always() && failure() }}
     runs-on: ubuntu-latest
