@@ -71,7 +71,7 @@ jobs:
           echo "full name: ${{ matrix.value.fullname }}"
       - name: Echo message
         run: |
-          echo "message: ${{ matrix.value.message }}"
+          echo "failure: ${{ matrix.value.failure }}"
       - name: Echo output
         run: |
           echo "output: ${{ matrix.value.output }}"
