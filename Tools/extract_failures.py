@@ -33,13 +33,10 @@ matrix = []
 for fail in all_fails:
     matrix.append(
         {
-            fail['test-case']['@name'] :
-            {
-                'name': fail['test-case']['@name'],
-                'fullname': fail['test-case']['@fullname'],
-                'failure': fail['test-case']['failure']['message'],
-                'output': fail['test-case']['output']
-            }
+            'name': fail['test-case']['@name'],
+            'fullname': fail['test-case']['@fullname'],
+            'failure': fail['test-case']['failure']['message'],
+            'output': fail['test-case']['output']
         }
     )
 
