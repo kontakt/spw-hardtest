@@ -52,9 +52,11 @@ jobs:
     - name: Debugging
       if: failure()
       shell: pwsh
-      run: echo ${{ fromJSON(steps.get_fails.outputs.matrix) }}
+      run: |
+        echo ${{ steps.get_fails.outputs.matrix }}
 
   report:
+    name: Error for ${{ matrix.name }}
     needs: [ hunt ]
     if: ${{ always() && failure() }}
     runs-on: ubuntu-latest
@@ -62,15 +64,20 @@ jobs:
       matrix:
         value: ${{ fromJSON(needs.hunt.outputs.matrix) }}
     steps:
+      - name: Echo matrix
+        run: |
+          echo '${{ toJSON(matrix) }}'
+          echo '${{ matrix }}'
+          echo '${{ fromJSON(matrix) }}'
       - name: Echo name
         run: |
-            echo "name: ${{ matrix.name }}"
+          echo "name: ${{ matrix.name }}"
       - name: Echo full name
         run: |
-            echo "full name: ${{ matrix.fullname }}"
+          echo "full name: ${{ matrix.fullname }}"
       - name: Echo message
         run: |
-            echo "message: ${{ matrix.message }}"
+          echo "message: ${{ matrix.message }}"
       - name: Echo output
         run: |
-            echo "output: ${{ matrix.output }}"
+          echo "output: ${{ matrix.output }}"
