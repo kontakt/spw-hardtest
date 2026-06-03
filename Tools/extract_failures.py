@@ -29,17 +29,14 @@ all_fails = []
 all_fails.extend(extract('./test_results/logs/Content.Tests.xml'))
 all_fails.extend(extract('./test_results/logs/Content.IntegrationTests.xml'))
 
-matrix = []
+matrix = {'includes':[]}
 for fail in all_fails:
-    matrix.append(
+    matrix['includes'].append(
         {
-            fail['test-case']['@name'] :
-            {
-                'name': fail['test-case']['@name'],
-                'fullname': fail['test-case']['@fullname'],
-                'failure': fail['test-case']['failure']['message'],
-                'output': fail['test-case']['output']
-            }
+            'name': fail['test-case']['@name'],
+            'fullname': fail['test-case']['@fullname'],
+            'failure': fail['test-case']['failure']['message'],
+            'output': fail['test-case']['output']
         }
     )
 
