@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.get_fails.outputs.matrix }}
+      cancel: ${{ steps.limit_output.outputs.cancel }}
 
     steps:
     - name: Checkout Master
@@ -49,9 +50,20 @@ jobs:
         pip install xmltodict
         python Tools/actions_extract_failures.py
 
+    - name: Avoid Issue Spam
+      id: limit_output
+      env:
+        MATRIX: ${{ steps.get_fails.outputs.matrix }}
+      run: |
+        if [ ("$MATRIX" | jq length) -gt 3 ]; then
+          echo "cancel=true\n" >> $GITHUB_OUTPUT
+        else
+          echo "cancel=false\n" >> $GITHUB_OUTPUT
+        fi
+
   report:
     needs: [ hunt ]
-    if: ${{ always() && failure() }}
+    if: ${{ always() && failure() && !fromJSON(needs.hunt.outputs.cancel) }}
     runs-on: ubuntu-latest
     permissions:
       issues: write 

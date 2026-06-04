@@ -9,14 +9,18 @@ FQDN: {{ env.FULLNAME }}
 
 <details>
 <summary>Failure message</summary>
+
 ```
 {{ env.FAILURE }}
 ```
+
 </details>
 
 <details>
 <summary>Test output</summary>
+
 ```
 {{ env.OUTPUT }}
 ```
+
 </details>
