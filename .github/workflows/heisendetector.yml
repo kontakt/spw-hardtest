@@ -56,7 +56,7 @@ jobs:
       env:
         MATRIX: ${{ steps.get_fails.outputs.matrix }}
       run: |
-        if [ ( $MATRIX | jq length) -gt 3 ]; then
+        if [ ( ${{ env.MATRIX }} | jq length) -gt 3 ]; then
           echo "cancel=true\n" >> $GITHUB_OUTPUT
         else
           echo "cancel=false\n" >> $GITHUB_OUTPUT
