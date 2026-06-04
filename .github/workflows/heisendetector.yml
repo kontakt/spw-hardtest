@@ -62,11 +62,15 @@ jobs:
     steps:
       - name: Checkout Master
         uses: actions/checkout@v6
-        
+
       - name: Create Issue
         uses: JasonEtco/create-an-issue@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NAME: ${{ matrix.value.name }}
+          FULLNAME: ${{ matrix.value.fullname }}
+          OUTPUT: ${{ matrix.value.output }}
+          FAILURE: ${{ matrix.value.failure }}
         with:
           filename: .github/ISSUE_TEMPLATE/heisentest_template.md
           update_existing: true

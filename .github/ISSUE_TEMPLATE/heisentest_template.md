@@ -4,15 +4,15 @@ title: Testfail on Main: {{ matrix.value.name }}
 Test failure on main, possible heisentest.
 Last encountered {{ date | date('dddd, MMMM Do') }}
 
-Test name: {{ matrix.value.name }}
-FQDN: {{ matrix.value.fullname }}
+Test name: {{ env.NAME }}
+FQDN: {{ env.FULLNAME }}
 
 Failure message:
 ```
-{{ matrix.value.failure }}
+{{ env.FAILURE }}
 ```
 
 Test output:
 ```
-{{ matrix.value.output }}
+{{ env.OUTPUT }}
 ```
