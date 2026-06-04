@@ -1,5 +1,5 @@
 ---
-title: Testfail on Main: {{ matrix.value.name }}
+title: Testfail on Main: {{ env.NAME }}
 ---
 Test failure on main, possible heisentest.
 Last encountered {{ date | date('dddd, MMMM Do') }}
