@@ -51,6 +51,7 @@ jobs:
         python Tools/actions_extract_failures.py
 
     - name: Avoid Issue Spam
+      if: failure()
       id: limit_output
       env:
         MATRIX: ${{ steps.get_fails.outputs.matrix }}
@@ -66,7 +67,7 @@ jobs:
     if: ${{ always() && failure() && !fromJSON(needs.hunt.outputs.cancel) }}
     runs-on: ubuntu-latest
     permissions:
-      issues: write 
+      issues: write
     strategy:
       matrix:
         value: ${{ fromJSON(needs.hunt.outputs.matrix) }}
