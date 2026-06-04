@@ -7,12 +7,16 @@ Last encountered {{ date | date('dddd, MMMM Do') }}
 Test name: {{ env.NAME }}
 FQDN: {{ env.FULLNAME }}
 
-Failure message:
+<details>
+<summary>Failure message</summary>
 ```
 {{ env.FAILURE }}
 ```
+</details>
 
-Test output:
+<details>
+<summary>Test output</summary>
 ```
 {{ env.OUTPUT }}
 ```
+</details>
