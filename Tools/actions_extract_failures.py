@@ -46,3 +46,4 @@ print(json_data)
 
 with open(os.environ.get('GITHUB_OUTPUT'), 'a') as f:
     f.write(f'matrix={json_data}\n')
+    f.write(f'overflow={len(matrix)}\n')

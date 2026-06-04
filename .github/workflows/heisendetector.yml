@@ -47,7 +47,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install xmltodict
-        python Tools/extract_failures.py
+        python Tools/actions_extract_failures.py
 
   report:
     needs: [ hunt ]
