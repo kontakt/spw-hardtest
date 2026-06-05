@@ -10,9 +10,14 @@ A test failure has been detected on the main branch. This should never occur.
 > Do not edit the body of this issue.
 
 ## Failure Details
-- Test name {{ env.NAME }}
-- FQDN {{ env.FULLNAME }}
-- Last encountered {{ date | date('dddd, MMMM Do') }}
+<dl>
+    <dt>Test name</dt>
+    <dd>{{ env.NAME }}</dd>
+    <dt>Fully qualified name</dt>
+    <dd>{{ env.FULLNAME }}</dd>
+    <dt>Last encountered</dt>
+    <dd>{{ date | date('dddd, MMMM Do') }}</dd>
+</dl>
 
 <details>
 <summary>Failure message</summary>
