@@ -1,5 +1,5 @@
 ---
-title: "{{ env.NAME }} test failure on main"
+title: "{{ env.NAME }} test failure on main ({{ env.FULLNAME }})"
 ---
 ## Test Failure On Main
 
