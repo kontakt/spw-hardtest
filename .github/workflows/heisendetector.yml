@@ -57,7 +57,7 @@ jobs:
     strategy:
       matrix:
         value: ${{ fromJSON(needs.hunt.outputs.matrix) }}
-    if: ${{ always() && failure() && (needs.hunt.outputs.matrix[4] == null) }}
+    if: ${{ always() && failure() && (needs.hunt.outputs.matrix[0] == null) }}
     name: Error for ${{ matrix.value.name }}
     steps:
       - name: Checkout Master
