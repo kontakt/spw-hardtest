@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""
+This script ingests XML files in an nunit format and extracts failed tests.
+This script is intended to be part of a CI/CD pipeline to detect failures.
+"""
+
 import os
 import json
 import xmltodict
